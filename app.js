@@ -17,11 +17,9 @@ app.get('/notes', function (res, res) {
 
 app.get('/api/notes', function (req, res) {
   fs.readFile(path.join(__dirname + '/db/db.json'),
-    async(err, data) => {
+    async (err, data) => {
       if (err) throw err;
-    
       const ret = JSON.parse(data);
-    
       res.send(ret);
     });
 });
@@ -34,10 +32,9 @@ app.post('/api/notes', function (req, res) {
       let newNote = req.body;
       let id
       if (ret.length) {
-        id=ret[ret.length -1].id +1
-
+        id = ret[ret.length - 1].id + 1
       }
-      else{id=0}
+      else { id = 0 }
       newNote.id = id;
       ret.push(newNote);
       fs.writeFile(path.join(__dirname + '/db/db.json'),
@@ -51,14 +48,15 @@ app.post('/api/notes', function (req, res) {
 
 app.delete('/api/notes/:id', function (req, res) {
   console.log(req.params.id, 'this is id')
-      const id = req.params.id; 
+  const id = req.params.id;
   fs.readFile(path.join(__dirname + '/db/db.json'),
     (err, data) => {
       if (err) throw err;
       const ret = JSON.parse(data);
-      const filteredArray = ret.filter(x =>{
-        console.log(x.id === parseInt(id), '<======') 
-        return x.id !== parseInt(id)});
+      const filteredArray = ret.filter(x => {
+        console.log(x.id === parseInt(id), '<======')
+        return x.id !== parseInt(id)
+      });
       fs.writeFile(path.join(__dirname + '/db/db.json'),
         JSON.stringify(filteredArray),
         (err) => {
